@@ -1,0 +1,44 @@
+{
+  "name": "salao-gestor",
+  "version": "1.0.0",
+  "description": "Gestor de Salão de Beleza",
+  "main": "main.js",
+  "homepage": "./",
+"scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm:server:dev\" \"npm:client:dev\" \"npm:electron:dev\"",
+    "client:dev": "wait-on http://localhost:3001/api/health && cross-env BROWSER=none npm start --prefix client",
+    "server:dev": "nodemon server/index.js",
+    "electron:dev": "wait-on http://localhost:3000 && electron .",
+    "build": "npm run build --prefix client && electron-builder",
+    "postinstall": "npm install --prefix server && npm install --prefix client",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.exemplo.salaogestor",
+    "productName": "Salão Gestor",
+    "files": [
+      "client/build/**/*",
+      "server/**/*",
+      "main.js",
+      "preload.js"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^28.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron-builder": "^24.9.1",
+    "nodemon": "^3.0.3",
+    "wait-on": "^7.2.0"
+  }
+}

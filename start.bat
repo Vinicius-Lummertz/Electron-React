@@ -1,0 +1,3 @@
+@echo off
+ECHO Iniciando o ambiente de desenvolvimento do Salão Gestor...
+call npm run dev
