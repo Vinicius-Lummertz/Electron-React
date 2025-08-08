@@ -6,3 +6,37 @@ body {
   background-color: #111827;
   color: #f9fafb;
 }
+
+/* ... seu css existente ... */
+
+/* Customização do FullCalendar para Tema Escuro */
+.fc {
+  color: var(--fc-neutral-text-color, #d1d5db);
+}
+
+.fc .fc-button-primary {
+  background-color: #4f46e5; /* Um tom de roxo/índigo */
+  border-color: #4f46e5;
+}
+
+.fc .fc-button-primary:hover, .fc .fc-button-primary:active {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
+
+.fc-daygrid-day.fc-day-today {
+  background-color: rgba(109, 40, 217, 0.2); /* Fundo roxo transparente para o dia de hoje */
+}
+
+.fc .fc-daygrid-day-number {
+  color: #d1d5db;
+}
+
+.fc .fc-col-header-cell-cushion {
+  color: #f9fafb;
+  text-decoration: none;
+}
+
+.fc-theme-standard .fc-scrollgrid, .fc-theme-standard th, .fc-theme-standard td {
+  border-color: #374151; /* Bordas cinza escuro */
+}

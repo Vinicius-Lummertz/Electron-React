@@ -4,20 +4,31 @@ import { useAuth } from '../context/AuthContext';
 import {
   CalendarDaysIcon,
   UsersIcon,
-  BanknotesIcon,
   Cog6ToothIcon,
   ArrowRightStartOnRectangleIcon,
   PlusCircleIcon,
   UserPlusIcon,
+  WrenchScrewdriverIcon, // Novo ícone
 } from '@heroicons/react/24/outline';
 
 const navigation = [
   { name: 'Agenda', href: '/', icon: CalendarDaysIcon },
   { name: 'Clientes', href: '/clientes', icon: UsersIcon },
+  { name: 'Serviços', href: '/servicos', icon: WrenchScrewdriverIcon }, // NOVO ITEM
+  { name: 'Configurações', href: '/configuracoes', icon: Cog6ToothIcon },
 ];
 
-export default function Drawer({ openClientModal, openAppointmentModal }) {
+export default function Drawer({ openClientModal, openAppointmentModal, openServiceModal }) {
   const { user, logout } = useAuth();
+  
+  const handleNavClick = (e, item) => {
+    // Impede o comportamento padrão do link para itens especiais
+    if (item.name === 'Serviços') {
+      e.preventDefault();
+      openServiceModal();
+    }
+    // Adicionar outros casos se necessário
+  };
 
   return (
     <div className="flex flex-col flex-shrink-0 w-72 h-screen px-4 py-8 overflow-y-auto bg-surface border-r border-gray-700">
@@ -41,7 +52,12 @@ export default function Drawer({ openClientModal, openAppointmentModal }) {
           
           <div className="pt-4 mt-4 border-t border-gray-700">
             {navigation.map((item) => (
-              <NavLink key={item.name} to={item.href} className={({ isActive }) => `flex items-center px-4 py-2 mt-2 text-text-secondary transition-colors duration-200 transform rounded-md hover:bg-gray-700 hover:text-white ${isActive ? 'bg-gray-700 text-white' : ''}`}>
+              <NavLink
+                key={item.name}
+                to={item.href}
+                onClick={(e) => handleNavClick(e, item)}
+                className={({ isActive }) => `flex items-center px-4 py-2 mt-2 text-text-secondary transition-colors duration-200 transform rounded-md hover:bg-gray-700 hover:text-white ${isActive && item.name !== 'Serviços' ? 'bg-gray-700 text-white' : ''}`}
+              >
                 <item.icon className="w-5 h-5" />
                 <span className="mx-4 font-medium">{item.name}</span>
               </NavLink>

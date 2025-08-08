@@ -4,10 +4,10 @@
   "description": "Gestor de Salão de Beleza",
   "main": "main.js",
   "homepage": "./",
-"scripts": {
+  "scripts": {
     "start": "electron .",
     "dev": "concurrently \"npm:server:dev\" \"npm:client:dev\" \"npm:electron:dev\"",
-    "client:dev": "wait-on http://localhost:3001/api/health && cross-env BROWSER=none npm start --prefix client",
+    "client:dev": "wait-on http://localhost:3001/api/auth && cross-env BROWSER=none npm start --prefix client",
     "server:dev": "nodemon server/index.js",
     "electron:dev": "wait-on http://localhost:3000 && electron .",
     "build": "npm run build --prefix client && electron-builder",
@@ -21,7 +21,8 @@
       "client/build/**/*",
       "server/**/*",
       "main.js",
-      "preload.js"
+      "preload.js",
+      "splash.html"
     ],
     "directories": {
       "buildResources": "assets",
@@ -32,6 +33,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fullcalendar/core": "^6.1.18",
+    "@fullcalendar/daygrid": "^6.1.18",
+    "@fullcalendar/interaction": "^6.1.18",
+    "@fullcalendar/react": "^6.1.18",
+    "@fullcalendar/timegrid": "^6.1.18",
+    "date-fns": "^4.1.0",
     "electron": "^28.2.0"
   },
   "devDependencies": {

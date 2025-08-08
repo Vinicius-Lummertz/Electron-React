@@ -18,7 +18,6 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
   console.log('[database] Conectado ao banco de dados SQLite.');
 
   db.serialize(() => {
-    // Tabela de Cargos/Funções
     db.exec(`
       CREATE TABLE IF NOT EXISTS cargos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +26,6 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
       );
     `);
 
-    // Tabela de Usuários
     db.exec(`
       CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,31 +37,43 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
       );
     `);
 
-    // Tabela de Clientes
+    // --- TABELA DE CLIENTES MODIFICADA ---
     db.exec(`
       CREATE TABLE IF NOT EXISTS clientes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         telefone TEXT,
         email TEXT UNIQUE,
-        data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        dia_semana_padrao INTEGER, -- 0=Domingo, 1=Segunda, etc.
+        horario_padrao TEXT -- Formato "HH:MM"
       );
     `);
     
-    // Tabela de Atendimentos (NOVA)
+    // --- TABELA DE ATENDIMENTOS MODIFICADA ---
     db.exec(`
       CREATE TABLE IF NOT EXISTS atendimentos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        cliente_id INTEGER NOT NULL,
+        cliente_id INTEGER, -- AGORA PODE SER NULO
+        cliente_nome_avulso TEXT, -- NOVO CAMPO PARA CLIENTES NÃO CADASTRADOS
         profissional_id INTEGER NOT NULL,
         servico_descricao TEXT NOT NULL,
         data_hora_inicio TEXT NOT NULL,
         data_hora_fim TEXT NOT NULL,
-        status TEXT DEFAULT 'Agendado', /* Agendado, Concluido, Cancelado */
+        status TEXT DEFAULT 'Agendado',
         FOREIGN KEY (cliente_id) REFERENCES clientes (id),
         FOREIGN KEY (profissional_id) REFERENCES usuarios (id)
       );
+    `)
+    
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS servicos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL UNIQUE,
+        duracao_minutos INTEGER NOT NULL
+      );
     `);
+    ;
     
     // -- POPULANDO DADOS INICIAIS --
     const cargos = ['CEO', 'Secretaria', 'Profissional'];

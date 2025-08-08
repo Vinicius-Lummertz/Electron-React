@@ -4,12 +4,12 @@ const router = express.Router();
 
 // Rota para CRIAR um novo cliente: POST /api/clientes
 router.post('/', (req, res) => {
-  const { nome, telefone, email } = req.body;
+  const { nome, telefone, email, dia_semana_padrao, horario_padrao } = req.body;
   if (!nome) {
     return res.status(400).json({ message: "O nome do cliente é obrigatório." });
   }
-  const sql = `INSERT INTO clientes (nome, telefone, email) VALUES (?, ?, ?)`;
-  db.run(sql, [nome, telefone, email], function(err) {
+  const sql = `INSERT INTO clientes (nome, telefone, email, dia_semana_padrao, horario_padrao) VALUES (?, ?, ?, ?, ?)`;
+  db.run(sql, [nome, telefone, email, dia_semana_padrao, horario_padrao], function(err) {
     if (err) {
       return res.status(500).json({ message: "Erro ao cadastrar cliente.", error: err.message });
     }
